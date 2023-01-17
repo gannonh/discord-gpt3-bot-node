@@ -1,6 +1,6 @@
-# fly.toml file generated for piraate-dev on 2023-01-15T12:10:01-08:00
+# fly.toml file generated for pirate-bot on 2023-01-16T11:03:15-08:00
 
-app = "piraate-dev"
+app = "pirate-bot"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []
