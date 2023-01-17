@@ -1,3 +1,4 @@
+// deploy-commands.js
 import dotenv from "dotenv";
 import { REST, Routes } from "discord.js";
 import fs from "fs";

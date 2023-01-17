@@ -1,17 +1,17 @@
 // Require the necessary discord.js classes
 import fs from "fs";
 import path from "path";
-import { Client, Events, Collection, GatewayIntentBits } from "discord.js";
+import { Client, Collection, GatewayIntentBits } from "discord.js";
 import dotenv from "dotenv";
 dotenv.config();
 
 const client = new Client({
-	intents: [
-	  GatewayIntentBits.Guilds,
-	  GatewayIntentBits.GuildMessages,
-	  GatewayIntentBits.MessageContent,
-	],
-  });
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.MessageContent,
+  ],
+});
 
 client.commands = new Collection();
 
@@ -31,18 +31,20 @@ for (const file of commandFiles) {
     });
 }
 
-const eventsPath = path.join(process.cwd(), 'events');
-const eventFiles = fs.readdirSync(eventsPath).filter(file => file.endsWith('.js'));
+const eventsPath = path.join(process.cwd(), "events");
+const eventFiles = fs
+  .readdirSync(eventsPath)
+  .filter((file) => file.endsWith(".js"));
 
-for (const file of eventFiles) {
-	const filePath = path.join(eventsPath, file);
-	const event = await import(filePath);
-	if (event.once) {
-		client.once(event.name, (...args) => event.execute(...args));
-	} else {
-		client.on(event.name, (...args) => event.execute(...args));
-	}
-}
-
-
-client.login(process.env.BOT_TOKEN);
+(async () => {
+  for (const file of eventFiles) {
+    const filePath = path.join(eventsPath, file);
+    const event = await import(filePath);
+    if (event.once) {
+      client.once(event.name, (...args) => event.execute(...args));
+    } else {
+      client.on(event.name, (...args) => event.execute(...args));
+    }
+  }
+  client.login(process.env.BOT_TOKEN);
+})();

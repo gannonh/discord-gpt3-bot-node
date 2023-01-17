@@ -1,3 +1,4 @@
+// events/ready.js
 import { Events } from 'discord.js';
 
 export const name = Events.ClientReady;

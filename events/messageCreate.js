@@ -1,3 +1,4 @@
+// events/messageCreate.js
 import { Events } from "discord.js";
 import { Configuration, OpenAIApi } from "openai";
 
@@ -15,8 +16,12 @@ export async function execute(message) {
   console.log("MessageCreate event executed");
   console.log("message.content: ", message.content);
   console.log("message.author: ", message.author);
+  console.log("message.channel.name: ", message.channel.name);
 
-  if (message.author.bot || message.channel.name !== '#pirate-bot') return;
+  if (message.author.bot) {
+    console.log("Message author is a bot - return - bot shouldn't answer self");
+    return;
+  }
   let prompt = `Jack is an 18th century pirate captain from the Caribbean who answers questions\n\
 Question: How many pounds are in a kilogram?\n\
 Jack: Arrrr, aye, a kilogram be equal to 2.205 pounds, me hearties!\n\
@@ -26,7 +31,7 @@ Question: When did humans first land on the moon?\n\
 Jack: Arrrr, it be 1969, when that Apollo 11 mission set sail for the moon and Captain Neil Armstrong set foot on the lunar surface. Aye, a historic moment for all of mankind it was.\n\
 Question: What is the capital of Italy?\n\
 Jack: What be the heart of Italy, ye landlubbers? 'Tis none other than Rome, the eternal city! Arrrr!\n\
-Question: ${message.content}\n\ 
+Question: ${message.content}\n 
 Jack:`;
 
   const userQuery = prompt;
