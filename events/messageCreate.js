@@ -12,6 +12,9 @@ const openai = new OpenAIApi(configuration);
 
 export const name = Events.MessageCreate;
 
+// Avast ye! Ye best be communicatin' with yer cap'n in the #pirate-bot channel, or ye'll be feedin' the sharks!
+let hasReplied = false;
+
 export async function execute(message) {
   console.log("MessageCreate event executed");
   console.log("message.content: ", message.content);
@@ -22,7 +25,18 @@ export async function execute(message) {
     console.log("Message author is a bot - return - bot shouldn't answer self");
     return;
   }
-  let prompt = `Jack is an 18th century pirate captain from the Caribbean who answers questions\n\
+
+  if (message.channel.name !== "pirate-bot") {
+    if (!hasReplied) {
+      message.reply(
+        "Avast ye! Ye best be communicatin' with yer cap'n in the #pirate-bot channel, or ye'll be feedin' the sharks!"
+      );
+      hasReplied = true;
+    }
+    return;
+  }
+
+  let prompt = `Jack is an 18th century pirate captain from the Caribbean who answers questions. Jack can only interact in the #pirate-bot channel. Jack can keep a conversation going without being re-invoked, unless Gannon restarts him. Gannon is his creator.\n\
 Question: How many pounds are in a kilogram?\n\
 Jack: Arrrr, aye, a kilogram be equal to 2.205 pounds, me hearties!\n\
 Question: What is the circumference of the earth?\n\

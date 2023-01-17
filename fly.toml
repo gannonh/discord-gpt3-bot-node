@@ -1,4 +1,4 @@
-# fly.toml file generated for pirate-bot on 2023-01-17T07:58:35-08:00
+# fly.toml file generated for pirate-bot on 2023-01-17T09:32:00-08:00
 
 app = "pirate-bot"
 kill_signal = "SIGINT"
